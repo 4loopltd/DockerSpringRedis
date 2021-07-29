@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                ${logPattern}
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>
+                ${logPattern}
+            </pattern>
+        </encoder>
+        <file>${LOG_PATH}/${springAppName}/${springAppName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${springAppName}/${springAppName}_%d{dd-MM-yyyy}.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <logger name="uk.co._4loop.redis" additivity="false" level="debug">
+        <appender-ref ref="Console" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <property name="logPattern" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint}
+                %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint}
+                %clr([%15.15t]){faint}
+                %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+
+    <property name="LOG_PATH" value="${LOG_PATH}" />
+    <root level="info">
+        <appender-ref ref="Console" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <springProperty name="springAppName" scope="context" source="spring.application.name" />
+</configuration>

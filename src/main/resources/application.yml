@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: redis-service
+
+  redis:
+    host: redis
+    port: 6379
+    password: LetMeIn:)
+
+logging:
+  file:
+    path: log
+  level:
+    uk.co._4loop.redis: DEBUG
